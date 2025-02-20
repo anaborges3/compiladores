@@ -2,16 +2,50 @@ import re
 import pandas as pd
 
 PALAVRASCHAVE = { #palavras-chave que o analisador léxico entende
-    "int": "KW_INT", 
-    "if": "KW_IF", 
-    "else": "KW_ELSE", 
-    "while": "KW_WHILE", 
-    "for": "KW_FOR", 
-    "return": "KW_RETURN", 
-    "void": "KW_VOID", 
+    "auto": "KW_AUTO", 
+    "break": "KW_BREAK", 
+    "case": "KW_CASE", 
     "char": "KW_CHAR", 
+    "const": "KW_CONST", 
+    "continue": "KW_CONTINUE", 
+    "default": "KW_DEFAULT", 
+    "do": "KW_DO", 
+    "double": "KW_DOUBLE", 
+    "else": "KW_ELSE", 
+    "enum": "KW_ENUM", 
+    "extern": "KW_EXTERN", 
     "float": "KW_FLOAT", 
-    "double": "KW_DOUBLE"
+    "for": "KW_FOR", 
+    "goto": "KW_GOTO", 
+    "if": "KW_IF", 
+    "inline": "KW_INLINE", 
+    "int": "KW_INT", 
+    "long": "KW_LONG", 
+    "register": "KW_REGISTER", 
+    "restrict": "KW_RESTRICT", 
+    "return": "KW_RETURN", 
+    "short": "KW_SHORT", 
+    "signed": "KW_SIGNED", 
+    "sizeof": "KW_SIZEOF", 
+    "static": "KW_STATIC", 
+    "struct": "KW_STRUCT", 
+    "switch": "KW_SWITCH", 
+    "typedef": "KW_TYPEDEF", 
+    "union": "KW_UNION", 
+    "unsigned": "KW_UNSIGNED", 
+    "void": "KW_VOID", 
+    "volatile": "KW_VOLATILE", 
+    "while": "KW_WHILE", 
+    "_Alignas": "KW_ALIGNAS", 
+    "_Alignof": "KW_ALIGNOF", 
+    "_Atomic": "KW_ATOMIC", 
+    "_Bool": "KW_BOOL", 
+    "_Complex": "KW_COMPLEX", 
+    "_Generic": "KW_GENERIC", 
+    "_Imaginary": "KW_IMAGINARY", 
+    "_Noreturn": "KW_NORETURN", 
+    "_Static_assert": "KW_STATIC_ASSERT", 
+    "_Thread_local": "KW_THREAD_LOCAL"
 }
 
 OPERADORES = { #operadores aritméticos e de atribuição
@@ -20,7 +54,9 @@ OPERADORES = { #operadores aritméticos e de atribuição
     "-": "SYM_MINUS", 
     "*": "SYM_MULT", 
     "/": "SYM_DIV", 
-    "%": "SYM_MOD"
+    "%": "SYM_MOD", 
+    "++": "SYM_INCREMENT", 
+    "--": "SYM_DECREMENT"
     }
 
 OPERADORES_RELACIONAIS = { #operadores relacionais
@@ -32,6 +68,21 @@ OPERADORES_RELACIONAIS = { #operadores relacionais
     "!=": "SYM_NEQ"
     }
 
+OPERADORES_LOGICOS = {
+    "&&": "SYM_AND", 
+    "||": "SYM_OR", 
+    "!": "SYM_NOT"
+}
+
+BITWISE_OPERATORS = {
+    "&": "SYM_BIT_AND", 
+    "|": "SYM_BIT_OR", 
+    "^": "SYM_BIT_XOR", 
+    "~": "SYM_BIT_NOT", 
+    "<<": "SYM_LEFT_SHIFT", 
+    ">>": "SYM_RIGHT_SHIFT"
+}
+
 SIMBOLOS_ESPECIAIS = { #símbolos especiais utilizados
     ";": "SYM_PV", 
     "{": "SYM_LBRACE", 
@@ -40,11 +91,15 @@ SIMBOLOS_ESPECIAIS = { #símbolos especiais utilizados
     ")": "SYM_RPAREN", 
     "[": "SYM_LBRACKET", 
     "]": "SYM_RBRACKET", 
-    ",": "SYM_COMMA"
-    }
+    ",": "SYM_COMMA", 
+    ".": "SYM_DOT", 
+    "->": "SYM_ARROW", 
+    "?": "SYM_QUESTION", 
+    ":": "SYM_COLON"
+}
 
 #expressao regular para identificar tokens no código-fonte
-REGEX = r"\b(?:" + "|".join(PALAVRASCHAVE.keys()) + r")\b|[a-zA-Z_][a-zA-Z0-9_]*|\d+|[=+\-*/%><!]=?|[{}();,\[\]]"
+REGEX = r"\b(?:" + "|".join(PALAVRASCHAVE.keys()) + r")\b|[a-zA-Z_][a-zA-Z0-9_]*|\d+|[=+\-*/%><!]=?|[&|^~]+|<<|>>|->|[{}();,\[\].?:]"
 
 #Função para tokenizar um código-fonte
 #Entrega uma lista de tokens identificados e um array formatado com os tokens
@@ -66,6 +121,12 @@ def tokenize(code):
             value = "-"
         elif match in OPERADORES_RELACIONAIS:
             token_type = OPERADORES_RELACIONAIS[match]
+            value = "-"
+        elif match in OPERADORES_LOGICOS:
+            token_type = OPERADORES_LOGICOS[match]
+            value = "-"
+        elif match in BITWISE_OPERATORS:
+            token_type = BITWISE_OPERATORS[match]
             value = "-"
         elif match in SIMBOLOS_ESPECIAIS:
             token_type = SIMBOLOS_ESPECIAIS[match]
