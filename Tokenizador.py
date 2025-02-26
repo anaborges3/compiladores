@@ -1,9 +1,16 @@
+#Professor: Gomide
+#Alunos: Ana Carolina Silva Borges
+#        Matheus Guerra 
+#        Stéphany Lima Vital
+
+
 import re
 import pandas as pd
 
 PALAVRASCHAVE = { #palavras-chave que o analisador léxico entende
     "int": "KW_INT",
-    "if": "KW_IF"
+    "if": "KW_IF",
+    "char": "KW_CHAR"
     }
 
 OPERADORES = { #operadores aritméticos e de atribuição
@@ -29,8 +36,8 @@ SIMBOLOS_ESPECIAIS = { #símbolos especiais utilizados
     ")": "SYM_RPAREN"
     }
 
-#expressao regular para identificar tokens no código-fonte
-REGEX = r"\bint\b|\bif\b|\w+|[=+\-*/><{}();]" 
+#expressao regular para identificar tokens no código-fonte 
+REGEX = r"\bint\b|\bif\b|\b\b|\w+|[=+\-*/><{}();]"
 
 #Função para tokenizar um código-fonte
 #Entrega uma lista de tokens identificados e um array formatado com os tokens
@@ -69,7 +76,7 @@ def tokenize(code):
     
     return tokens, tokenized_array #retorna a lista de tokens e o array tokenizado
 
-#codigo para análise léxica
+#codigo 
 code = """
 int a = 134;
 int b = 23;
