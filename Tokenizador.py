@@ -37,6 +37,7 @@ SIMBOLOS_ESPECIAIS = { #símbolos especiais utilizados
     }
 
 #expressao regular para identificar tokens no código-fonte 
+REGEX = r"\w+|[=+\-*/><{}();]"
 REGEX = r"\bint\b|\bif\b|\w+|[=+\-*/><{}();]"
 
 #Função para tokenizar um código-fonte
@@ -80,6 +81,7 @@ def tokenize(code):
 code = """
 int a = 134;
 int b = 23;
+char var = A;
 if(b > 30)
     int c = b + a;
 if(a > 100) {
