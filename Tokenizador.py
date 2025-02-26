@@ -38,7 +38,7 @@ SIMBOLOS_ESPECIAIS = { #símbolos especiais utilizados
 
 #expressao regular para identificar tokens no código-fonte 
 REGEX = r"\w+|[=+\-*/><{}();]"
-REGEX = r"\bint\b|\bif\b|\w+|[=+\-*/><{}();]"
+# REGEX = r"\bint\b|\bif\b|\w+|[=+\-*/><{}();]"
 
 #Função para tokenizar um código-fonte
 #Entrega uma lista de tokens identificados e um array formatado com os tokens
