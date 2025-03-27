@@ -147,7 +147,7 @@ def tokenize(code):
 #codigo para análise léxica
 code = """
 int a = 134;
-int b = 23;
+int b = c23;
 if(b > 30)
     int c = b + a;
 if(a > 100) {
